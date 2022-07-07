@@ -32,9 +32,7 @@ function Filtering(requiredRange) {
         }
     }
 
-    let sortedCourses = sorting(filteredCourses);
-
-    return sortedCourses;
+    return sorting(filteredCourses);
 }
 
 // Функция сортировки
