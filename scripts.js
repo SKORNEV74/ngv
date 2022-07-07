@@ -12,25 +12,48 @@ let courses = [
 
 // Функция фильтрации
 function Filtering(requiredRange) {
-    console.log("New filters:")
+    let filteredCourses = [];
     for (let i = 0; i < courses.length; i++) {
         if (requiredRange[0] === null && requiredRange[1] === null) {
-            console.log(courses[i].name);
+            filteredCourses.push(courses[i]);
         } else if (requiredRange[0] === null) {
             if (requiredRange[1] >= courses[i].prices[0]) {
-                console.log(courses[i].name);
+                filteredCourses.push(courses[i]);
             }
         } else if (requiredRange[1] === null) {
             if (requiredRange[0] <= courses[i].prices[1] || courses[i].prices[1] == null) {
-                console.log(courses[i].name);
+                filteredCourses.push(courses[i]);
             }
         } else {
             if (requiredRange[1] >= courses[i].prices[0] &&
                 (requiredRange[0] <= courses[i].prices[1] || courses[i].prices[1] == null)) {
-                console.log(courses[i].name);
+                filteredCourses.push(courses[i]);
             }
         }
     }
+
+    let sortedCourses = sorting(filteredCourses);
+
+    return sortedCourses;
+}
+
+// Функция сортировки
+function sorting (unsortedCourses) {
+    const arrayLength = unsortedCourses.length;
+    const factor = 1.247;
+
+    let gapFactor = arrayLength / factor;
+
+    while (gapFactor > 1) {
+        const gap = Math.round(gapFactor);
+        for (let i = 0, j = gap; j < arrayLength; i++, j++) {
+            if (unsortedCourses[i].prices[0] > unsortedCourses[j].prices[0]) {
+                [unsortedCourses[i], unsortedCourses[j]] = [unsortedCourses[j], unsortedCourses[i]];
+            }
+        }
+        gapFactor = gapFactor / factor;
+    }
+    return unsortedCourses;
 }
 
 // Варианты цен (фильтры), которые ищет пользователь
@@ -42,3 +65,10 @@ let requiredRange3 = [200, null];
 Filtering(requiredRange1);
 Filtering(requiredRange2);
 Filtering(requiredRange3);
+
+// Проверка
+/*
+console.log(Filtering(requiredRange1));
+console.log(Filtering(requiredRange2));
+console.log(Filtering(requiredRange3));
+*/
